@@ -1,0 +1,31 @@
+[project]
+name = "marvin-integration-apprise"
+version = "0.1.0"
+description = "Apprise multi-channel notifications as a Marvin integration provider."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "marvin-integration-sdk",
+    "apprise>=1.7",
+]
+
+[project.entry-points."marvin.integrations"]
+apprise = "marvin_integration_apprise:AppriseProvider"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/marvin_integration_apprise"]
+
+# Dev only: resolve the SDK from the sibling checkout. Released builds take it from the index.
+[tool.uv.sources]
+marvin-integration-sdk = { path = "../MarvinIntegrationSDK", editable = true }
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.ruff]
+line-length = 150
+target-version = "py311"
