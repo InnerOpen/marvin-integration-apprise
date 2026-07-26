@@ -7,7 +7,8 @@ import pytest
 from marvin_integration_sdk import CATEGORY_NOTIFY, INTEGRATION_REGISTRY, IntegrationContext
 
 import marvin_integration_apprise  # noqa: F401 — registers the provider on import
-from marvin_integration_apprise import AppriseProvider, _parse_urls
+from marvin_integration_apprise import AppriseProvider
+from marvin_integration_apprise.provider import _parse_urls
 
 
 def _ctx(secret):
