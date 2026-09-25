@@ -33,6 +33,7 @@ class AppriseProvider(IntegrationProvider):
     name = "Apprise Notifications"
     description = "Send notifications to Slack, Discord, Telegram, email, and 100+ services via an Apprise URL."
     category = CATEGORY_NOTIFY
+    icon = "🔔"
 
     credentials = (
         CredentialField(
