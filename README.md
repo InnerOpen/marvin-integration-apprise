@@ -26,6 +26,10 @@ pip install marvin-integration-apprise
 For a Marvin container, add it to the image or a Helm `initContainers` step (see the Marvin chart
 README for the plugin-install pattern).
 
+## Logo
+
+`logo.png` is the Apprise logo from [caronc/apprise](https://github.com/caronc/apprise/blob/master/apprise/assets/themes/default/apprise-logo.png), scaled to 390×160 (BSD-2-Clause, © Chris Caron; the licence ships beside it as `logo-LICENSE.txt`). Marvin shows it in place of the 🔔 emoji; it identifies the integration and doesn't imply endorsement by the Apprise project.
+
 ## Develop
 
 ```bash

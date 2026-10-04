@@ -1,11 +1,11 @@
 [project]
 name = "marvin-integration-apprise"
-version = "0.1.0"
+version = "0.2.0"
 description = "Apprise multi-channel notifications as a Marvin integration provider."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "marvin-integration-sdk",
+    "marvin-integration-sdk>=0.6,<1",
     "apprise>=1.7",
 ]
 
