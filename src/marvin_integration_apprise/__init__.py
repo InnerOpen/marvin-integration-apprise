@@ -8,4 +8,4 @@ URL(s) are the credential (behind ``secret_ref``), and a ``notify`` action sends
 from .provider import AppriseProvider
 
 __all__ = ["AppriseProvider"]
-__version__ = "0.2.0"
+__version__ = "0.3.0"

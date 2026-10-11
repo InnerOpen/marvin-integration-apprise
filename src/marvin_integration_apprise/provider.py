@@ -19,6 +19,8 @@ from marvin_integration_sdk import (
     register_provider,
 )
 
+from .recipes import RECIPES
+
 
 def _parse_urls(secret: str | None) -> list[str]:
     """Split the credential into individual Apprise URLs (newline- or comma-separated)."""
@@ -44,6 +46,11 @@ class AppriseProvider(IntegrationProvider):
             required=True,
         ),
     )
+
+    # What Marvin learns about Apprise (SDK 0.9.0): a how-to its agents read when building workflows here, and a
+    # ready-made workflow in the Workflow Library, offered once Apprise is connected.
+    guide = "guide.md"
+    recipes = RECIPES
 
     actions = (
         ProviderAction(

@@ -4,11 +4,13 @@ import logging
 
 import apprise
 import pytest
-from marvin_integration_sdk import CATEGORY_NOTIFY, INTEGRATION_REGISTRY, IntegrationContext
+from marvin_integration_sdk import CATEGORY_NOTIFY, INTEGRATION_REGISTRY, IntegrationContext, load_guide
+from marvin_integration_sdk.testing import IntegrationContract
 
 import marvin_integration_apprise  # noqa: F401 — registers the provider on import
 from marvin_integration_apprise import AppriseProvider
 from marvin_integration_apprise.provider import _parse_urls
+from marvin_integration_apprise.recipes import DELIVERY_KEY
 
 
 def _ctx(secret):
@@ -61,3 +63,29 @@ def test_notify_requires_a_configured_url():
 def test_unknown_action_raises():
     with pytest.raises(NotImplementedError):
         AppriseProvider().run_action("nope", {}, _ctx("json://a"))
+
+
+# ── what Apprise teaches Marvin (SDK 0.9.0) ──────────────────────────────────
+
+
+class TestAppriseContract(IntegrationContract):
+    @pytest.fixture
+    def provider(self):
+        return AppriseProvider()
+
+
+def test_the_guide_ships_with_the_package():
+    guide = load_guide(AppriseProvider)
+    assert guide.startswith("# Apprise") and "one URL per line" in guide and "sent: false" in guide
+
+
+def test_the_announce_recipe_records_whether_apprise_delivered_it():
+    (recipe,) = AppriseProvider.recipes
+    assert recipe.id == "announce-and-record-delivery"
+    announce, sent, failed = recipe.definition["actions"]
+    assert (announce["id"], announce["action"], announce["integration"]) == ("announce", "notify", "{{apprise_integration}}")
+    assert announce["args"]["body"] == "${entry.title}\n${entry.url}"  # run-time templates, filled when it runs
+    # Opposite `when`s on the notify step's own result make an if/else; notify reports a refusal as sent=False, not an error.
+    assert sent["when"] == {"field": "steps.announce.output.sent", "op": "eq", "value": True}
+    assert failed["when"] == {"field": "steps.announce.output.sent", "op": "eq", "value": False}
+    assert (sent["metadata"], failed["metadata"]) == ({DELIVERY_KEY: "sent"}, {DELIVERY_KEY: "failed"})
