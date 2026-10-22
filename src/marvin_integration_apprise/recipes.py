@@ -14,8 +14,8 @@ ANNOUNCE_AND_RECORD = WorkflowRecipe(
     id="announce-and-record-delivery",
     title="Announce published entries and record delivery",
     outcome=(
-        "Each published entry of one type is sent through Apprise with its title and link, and the entry records whether every "
-        "service accepted it (apprise_delivery: sent or failed)."
+        "Each published entry of one type is sent through Apprise with its title and link, and whether every service "
+        "accepted it (sent or failed) is saved on the entry."
     ),
     category="Notifications",
     tags=("announce", "publishing", "notify"),
@@ -55,7 +55,7 @@ ANNOUNCE_AND_RECORD = WorkflowRecipe(
     },
     side_effects=(
         {"kind": "notification", "description": "Sends a message to every service on the Apprise connection."},
-        {"kind": "content_mutation", "description": "Writes apprise_delivery metadata on the entry (sent or failed)."},
+        {"kind": "content_mutation", "description": "Saves on the entry whether it was sent or failed."},
     ),
 )
 
